@@ -1,0 +1,83 @@
+﻿IMPORT $;
+IMPORT STD;
+IPTU :=$.File_IPTU2019.File2019;
+Valores:= $.File_Venal_V2;
+ 
+
+ds := IPTU;
+da := Valores;
+
+
+Layout := RECORD
+ ds.NUMERO_DO_CONTRIBUINTE;
+ ds.ANO_DO_EXERCICIO;
+ ds.NUMERO_DA_NL;
+ ds.DATA_DO_CADASTRAMENTO;
+ ds.TIPO_DE_CONTRIBUINTE_1;
+ ds.CPF_CNPJ_DO_CONTRIBUINTE_1;
+ ds.NOME_DO_CONTRIBUINTE_1; 
+ ds.TIPO_DE_CONTRIBUINTE_2;
+ ds.CPF_CNPJ_DO_CONTRIBUINTE_2;
+ ds.NOME_DO_CONTRIBUINTE_2;
+ ds.NUMERO_DO_CONDOMINIO;
+ ds.CODLOG_DO_IMOVEL;
+ ds.NOME_DE_LOGRADOURO_DO_IMOVEL;
+ ds.NUMERO_DO_IMOVEL;
+ ds.COMPLEMENTO_DO_IMOVEL;
+ ds.BAIRRO_DO_IMOVEL;
+ ds.REFERENCIA_DO_IMOVEL;
+ ds.CEP_DO_IMOVEL;
+ ds.QUANTIDADE_DE_ESQUINAS_FRENTES;
+ da.FRACAO_IDEAL;
+ ds.AREA_DO_TERRENO;
+ ds.AREA_CONSTRUIDA;
+ ds.AREA_OCUPADA;
+ ds.VALOR_DO_M2_DO_TERRENO;
+ ds.VALOR_DO_M2_DE_CONSTRUCAO;
+ ds.ANO_DA_CONSTRUCAO_CORRIGIDO;
+ ds.QUANTIDADE_DE_PAVIMENTOS;
+ da.TESTADA_PARA_CALCULO;
+ ds.TIPO_DE_USO_DO_IMOVEL;
+ ds.TIPO_DE_PADRAO_DA_CONSTRUCAO;
+ ds.TIPO_DE_TERRENO;
+ da.FATOR_DE_OBSOLESCENCIA;
+ 
+ ds.ANO_DE_INICIO_DA_VIDA_DO_CONTRIBUINTE;
+ ds.MES_DE_INICIO_DA_VIDA_DO_CONTRIBUINTE;
+ ds.FASE_DO_CONTRIBUINTE;
+ 
+ da.zona;
+ da.profundidade_eq;
+ da.fatordeprof;
+ da.condominio;
+ da.fator_terreno;
+ da.area_exc;
+ da.construcao;
+ da.terreno;
+ da.excesso
+ END;
+
+
+
+Layout cc ($.File_IPTU2019.File2019 Le, $.File_Venal_V2 Ri) := TRANSFORM
+ 
+ SELF.FRACAO_IDEAL := Ri.FRACAO_IDEAL;
+ SELF.TESTADA_PARA_CALCULO := Ri.TESTADA_PARA_CALCULO; 
+ SELF.FATOR_DE_OBSOLESCENCIA := Ri.FATOR_DE_OBSOLESCENCIA;
+ SELF.zona := Ri.zona;
+ SELF.profundidade_eq:= Ri.profundidade_eq;
+ SELF.fatordeprof:= Ri.fatordeprof;
+ SELF.condominio:= Ri.condominio;
+ SELF.fator_terreno:= Ri.fator_terreno;
+ SELF.area_exc:= Ri.area_exc;
+ SELF.construcao:= Ri.construcao;
+ SELF.terreno:= Ri.terreno;
+ SELF.excesso:= Ri.excesso;
+
+SELF := Le;
+END;
+// Venal := PROJECT(Isso, cc(LEFT));
+Venal := JOIN(IPTU,Valores,LEFT.NUMERO_DO_CONTRIBUINTE = RIGHT.NUMERO_DO_CONTRIBUINTE, cc(LEFT,RIGHT),LEFT OUTER);
+
+// EXPORT Venalk := Venal;
+EXPORT File_Vencomp := Venal: PERSIST('~USP::IC::PERSIST::Venal_completo');
