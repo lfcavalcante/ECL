@@ -1,4 +1,5 @@
 ﻿IMPORT $;
+// myData := $.FIle_ndatas;
 myData := $.FIle_ndatas;
 VI := $.File_TabelaVI.TabelaVI;
 Layout := RECORD

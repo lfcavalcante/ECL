@@ -1,5 +1,5 @@
 ﻿IMPORT $;
-myData := $.File_nuntrans;
+myData := $.File_transhuf;
 
 Layout := RECORD
 

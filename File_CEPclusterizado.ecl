@@ -1,12 +1,13 @@
 ﻿IMPORT $;
 // IMPORT STD;
-Isso := $.File_normalized;
+// Isso := $.File_normalized;
+Isso := $.File_centroids;
 Tabel := $.KMeans_parcial.Labelss;
 myData := $.File_transhufid;
 EXPORT File_CEPclusterizado := MODULE
 EXPORT VenalLayout := RECORD
 	
-	$.File_normalized;
+	Isso;
 	
 	UNSIGNED Clusterid;
 	
@@ -22,7 +23,7 @@ UNSIGNED Clusterid;
 	
 END;
 
-EXPORT VenalLayout cc($.File_normalized Le,$.KMeans_parcial.Labelss Ri) := TRANSFORM
+EXPORT VenalLayout cc(Isso Le,$.KMeans_parcial.Labelss Ri) := TRANSFORM
 
 SELF.Clusterid := Ri.label;
 
@@ -37,8 +38,8 @@ SELF := Le;
 END;
 // Venal := PROJECT(Isso, cc(LEFT));
 
-EXPORT Venal2 := JOIN(Isso,Tabel,LEFT.id = RIGHT.id, cc(LEFT,RIGHT),LEFT OUTER) : PERSIST('~USP::IC::PERSIST::CEPclusterizadonorm');
-EXPORT Venaldois := JOIN(myData,Tabel,LEFT.id = RIGHT.id, dd(LEFT,RIGHT),LEFT OUTER) : PERSIST('~USP::IC::PERSIST::CEPclusterizado');
+EXPORT Venal2 := JOIN(Isso,Tabel,LEFT.id = RIGHT.id, cc(LEFT,RIGHT)) : PERSIST('~USP::IC::PERSIST::CEPclusterizadonorm');
+EXPORT Venaldois := JOIN(myData,Tabel,LEFT.id = RIGHT.id, dd(LEFT,RIGHT)) : PERSIST('~USP::IC::PERSIST::CEPclusterizado');
 
 EXPORT Venal := SORT(Venal2,Clusterid);
 EXPORT Venalll := SORT(Venaldois,Clusterid);

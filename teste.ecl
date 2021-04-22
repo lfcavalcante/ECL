@@ -1,21 +1,25 @@
-﻿IMPORT $;
-IMPORT DBSCAN;
-IMPORT ML_Core;
-blobs := $.DBSCAN_parcial.Outliers;
+﻿// IMPORT $;
+// IMPORT DBSCAN;
+// IMPORT ML_Core;
+// blobs := $.File_SetFatores;
 
 
 EXPORT teste := MODULE
 
-ML_Core.ToField(blobs(label=1),recs1);
-EXPORT myAggs1 := ML_Core.FieldAggregates(recs1).Medians;
-ML_Core.ToField(blobs(label=2),recs2);
-EXPORT myAggs2 := ML_Core.FieldAggregates(recs2).Medians;
-ML_Core.ToField(blobs(label=3),recs3);
-EXPORT myAggs3 := ML_Core.FieldAggregates(recs3).Medians;
-ML_Core.ToField(blobs(label=4),recs4);
-EXPORT myAggs4 := ML_Core.FieldAggregates(recs4).Medians;
-ML_Core.ToField(blobs(label=5),recs5);
-EXPORT myAggs5 := ML_Core.FieldAggregates(recs5).Medians;
+// ML_Core.ToField(blobs,recs1);
+// EXPORT myAggs1 := ML_Core.FieldAggregates(recs1).Ntileranges(4);
+// EXPORT S:= SORT(myAggs1, number, ntile);
+
+// ML_Core.ToField(blobs(label=1),recs1);
+// EXPORT myAggs1 := ML_Core.FieldAggregates(recs1).Medians;
+// ML_Core.ToField(blobs(label=2),recs2);
+// EXPORT myAggs2 := ML_Core.FieldAggregates(recs2).Medians;
+// ML_Core.ToField(blobs(label=3),recs3);
+// EXPORT myAggs3 := ML_Core.FieldAggregates(recs3).Medians;
+// ML_Core.ToField(blobs(label=4),recs4);
+// EXPORT myAggs4 := ML_Core.FieldAggregates(recs4).Medians;
+// ML_Core.ToField(blobs(label=5),recs5);
+// EXPORT myAggs5 := ML_Core.FieldAggregates(recs5).Medians;
 // ML_Core.ToField(blobs(label=6),recs6);
 // EXPORT myAggs6 := ML_Core.FieldAggregates(recs6).Medians;
 // ML_Core.ToField(blobs(label=7),recs7);
@@ -32,15 +36,16 @@ EXPORT myAggs5 := ML_Core.FieldAggregates(recs5).Medians;
 // EXPORT myAggs12 := ML_Core.FieldAggregates(recs12).Medians;
 // ML_Core.ToField(blobs(label=13),recs13);
 // EXPORT myAggs13 := ML_Core.FieldAggregates(recs13).Medians;
-END;
+// END;
 
 
 
-// IMPORT $;
-// IMPORT DBSCAN;
-// IMPORT ML_Core;
-// blobs := $.File_distcluster;
-
+IMPORT $;
+IMPORT DBSCAN;
+IMPORT ML_Core;
+blobs := $.File_distcluster;
+haf := $.File_normalized;
+c := COUNT(haf);
 
 // EXPORT teste := MODULE
 
@@ -72,8 +77,9 @@ END;
 // EXPORT myAggs13 := ML_Core.FieldAggregates(recs13).Medians;
 // END;
 
-// ML_Core.ToField(blobs(clusterid = 3133),recs1);
+ML_Core.ToField(blobs(clusterid = c+1),recs1);
 // EXPORT a := ML_Core.FieldAggregates(recs1).simple(number = 17)[1].countval;
+EXPORT a := ML_Core.FieldAggregates(recs1).simple;
 
 // q1(UNSIGNED z, UNSIGNED y) := FUNCTION
  
@@ -84,7 +90,7 @@ END;
  
  
  // RETURN c;
-// END;
+END;
 
 // EXPORT x := q1(3133,a);
 

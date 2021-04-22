@@ -21,21 +21,21 @@ s := RECORD
  
  minimo(UNSIGNED z) := FUNCTION
  ML_Core.ToField(blobs(clusterid = z),recs1);
- myAggs1 := ML_Core.FieldAggregates(recs1).simple(number = 17)[1].minval;
+ myAggs1 := ML_Core.FieldAggregates(recs1).simple(number = 8)[1].minval;
  
  RETURN myAggs1;
 END;
  
  maximo(UNSIGNED z) := FUNCTION
  ML_Core.ToField(blobs(clusterid = z),recs1);
- myAggs1 := ML_Core.FieldAggregates(recs1).simple(number = 17)[1].maxval;
+ myAggs1 := ML_Core.FieldAggregates(recs1).simple(number = 8)[1].maxval;
  
  RETURN myAggs1;
 END;
 
 q2(UNSIGNED z) := FUNCTION
  ML_Core.ToField(blobs(clusterid = z),recs1);
- myAggs1 := ML_Core.FieldAggregates(recs1).medians(number = 17)[1].median;
+ myAggs1 := ML_Core.FieldAggregates(recs1).medians(number = 8)[1].median;
  
  RETURN myAggs1;
 END;
@@ -45,10 +45,10 @@ END;
 q1(UNSIGNED z) := FUNCTION
  
  ML_Core.ToField(blobs(clusterid = z),recs1);
- b := ML_Core.FieldAggregates(recs1).simple(number = 17)[1].countval;
+ b := ML_Core.FieldAggregates(recs1).simple(number = 8)[1].countval;
  c:= IF(b%2 = 0, b/2, (b-1)/2);
  ML_Core.ToField(blobs(clusterid = z)[1..c],recsk);
- d := ML_Core.FieldAggregates(recsk).medians(number = 17)[1].median;
+ d := ML_Core.FieldAggregates(recsk).medians(number = 8)[1].median;
  
  
  RETURN d;
@@ -57,10 +57,10 @@ END;
 q3(UNSIGNED z) := FUNCTION
  
  ML_Core.ToField(blobs(clusterid = z),recs1);
- b := ML_Core.FieldAggregates(recs1).simple(number = 17)[1].countval;
+ b := ML_Core.FieldAggregates(recs1).simple(number = 8)[1].countval;
  c:= IF(b%2 = 0, (b/2)+1, ((b-1)/2)+2);
  ML_Core.ToField(blobs(clusterid = z)[c..b],recsk);
- d := ML_Core.FieldAggregates(recsk).medians(number = 17)[1].median;
+ d := ML_Core.FieldAggregates(recsk).medians(number = 8)[1].median;
  
  
  RETURN d;

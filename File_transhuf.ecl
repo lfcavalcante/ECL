@@ -16,19 +16,19 @@ END;
 	
 
 // Assign a random number to each record
-// MyFormatExt cc ($.File_nuntrans Le) := TRANSFORM
+MyFormatExt cc ($.File_nuntrans Le) := TRANSFORM
 
-// SELF.rnd := RANDOM();
+SELF.rnd := RANDOM();
 
-// SELF := Le;
+SELF := Le;
 
-// END;
+END;
 
-// myDataE := PROJECT(myData, cc(LEFT));
+myDataE := PROJECT(myData, cc(LEFT));
 
 // Shuffle your data by sorting on the random field
 
-// myDataES := SORT(myDataE, rnd);
+myDataES := SORT(myDataE, rnd);
 
-myTrainData := PROJECT(myData, MyFormat);
+myTrainData := PROJECT(myDataES, MyFormat);
 EXPORT File_transhuf := myTrainData;
