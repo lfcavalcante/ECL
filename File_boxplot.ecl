@@ -106,4 +106,4 @@ t ArrumaIT(Col_out Le) := TRANSFORM
 	
 Jol_Out := PROJECT(Col_out,ArrumaIt(LEFT));
 
-EXPORT File_boxplot := Jol_out;
+EXPORT File_boxplot := Jol_out : PERSIST('~USP::IC::PERSIST::Boxplot');

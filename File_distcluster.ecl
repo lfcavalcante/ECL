@@ -4,6 +4,7 @@ IMPORT ML_Core;
 
 
 blobs := $.File_CEPclusterizado.Venal2;
+Isso := $.File_centroidmean;
 
 Layout := RECORD
 	$.File_CEPclusterizado.Venal2;
@@ -12,14 +13,14 @@ Layout := RECORD
 
 END;
 
-abba (UNSIGNED sec) := FUNCTION
+// abba (UNSIGNED sec) := FUNCTION
 
-		k := blobs(clusterid = sec);
-		ML_Core.ToField(k,recs);
-		ola := ML_Core.FieldAggregates(recs).simple;
-	RETURN ola;
+		// k := blobs(clusterid = sec);
+		// ML_Core.ToField(k,recs);
+		// ola := ML_Core.FieldAggregates(recs).simple;
+	// RETURN ola;
 
-END;
+// END;
 
 // dist (UNSIGNED dec, DECIMAL p1, DECIMAL p2, DECIMAL p3, DECIMAL p4, DECIMAL p5, DECIMAL p6, DECIMAL p7, DECIMAL p8,
 // DECIMAL p9, DECIMAL p10, DECIMAL p11, DECIMAL p12, DECIMAL p13) := FUNCTION
@@ -46,12 +47,12 @@ END;
 
 // END;
 
-dist (UNSIGNED dec, DECIMAL p1, DECIMAL p2, DECIMAL p3, DECIMAL p4) := FUNCTION
+dist (UNSIGNED dec, DECIMAL p1, DECIMAL p2, DECIMAL p3, DECIMAL p4, DECIMAL m1, DECIMAL m2, DECIMAL m3, DECIMAL m4) := FUNCTION
 
-		a1 := POWER(p1 - abba(dec)(number=1)[1].mean, 2.0);
-		a2 := POWER(p2 - abba(dec)(number=2)[1].mean, 2.0);
-		a3 := POWER(p3 - abba(dec)(number=3)[1].mean, 2.0);
-		a4 := POWER(p4 - abba(dec)(number=4)[1].mean, 2.0);
+		a1 := POWER(p1 - m1, 2.0);
+		a2 := POWER(p2 - m2, 2.0);
+		a3 := POWER(p3 - m3, 2.0);
+		a4 := POWER(p4 - m4, 2.0);
 		
 		
 		result := SQRT(a1+a2+a3+a4);
@@ -75,15 +76,15 @@ END;
  // DECIMAL10_9  Adensamento_urbano ;
  
  // myData.ANO_DA_CONSTRUCAO_CORRIGIDO;
-Layout cc ($.File_CEPclusterizado.Venal2 Le) := TRANSFORM
+Layout cc ($.File_CEPclusterizado.Venal2 Le, $.File_centroidmean Ri) := TRANSFORM
 
 SELF.Distancia := dist(Le.Clusterid, Le.Tamanho_dos_terrenos_e_frentes, Le.Valor_dimensional_financeiro_do_imovel,
- Le.Adensamento_urbano, Le.ANO_DA_CONSTRUCAO_CORRIGIDO);
+ Le.Adensamento_urbano, Le.ANO_DA_CONSTRUCAO_CORRIGIDO, Ri.MF1, Ri.MF2, Ri.MF3, RI.MF4);
 SELF := LE;
 
 END;
 
-Venal := PROJECT(blobs, cc(LEFT));
+Venal := JOIN(blobs, Isso, LEFT.clusterid = RIGHT.id, cc(LEFT, RIGHT));
 Venal2 := SORT(Venal, clusterid, distancia);
 
 

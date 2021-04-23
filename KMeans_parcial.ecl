@@ -20,8 +20,9 @@ Pre_Model := KMeans.KMeans(Max_iterations, Tolerance);
 //Train the model
 EXPORT Model := Pre_Model.Fit( recs(number < 5), Centroids(number < 5));
 //Coordinates of cluster centers
-EXPORT Centers := KMeans.KMeans().Centers(Model);
-EXPORT Labelss := KMeans.KMeans().Labels(Model);
+EXPORT Centers := KMeans.KMeans().Centers(Model): PERSIST('~USP::IC::PERSIST::CentersKmeans');
+EXPORT Labelss := KMeans.KMeans().Labels(Model): PERSIST('~USP::IC::PERSIST::LabelsKmeans');
+// EXPORT Outliers := Model: PERSIST('~USP::IC::PERSIST::ModeloDB');
 
 
 

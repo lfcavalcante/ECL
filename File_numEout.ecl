@@ -38,4 +38,4 @@ Layout BuildIt1(Col_out Le,$.File_boxplot Ri) := TRANSFORM
 	
 Jol_Out := JOIN(Col_out,$.File_boxplot,LEFT.id = RIGHT.id,BuildIt1(LEFT,RIGHT));
 
-EXPORT File_numEout := Jol_out;
+EXPORT File_numEout := Jol_out : PERSIST('~USP::IC::PERSIST::Kmeans_completo');

@@ -125,4 +125,4 @@ col_out Rollem(col_out L,col_out R) := TRANSFORM
 Final_out := ROLLUP(col_out,LEFT.id = RIGHT.ID,Rollem(LEFT,RIGHT));
 // Final_out;
 
-EXPORT File_Kmtabelado := Final_out;
+EXPORT File_Kmtabelado := Final_out : PERSIST('~USP::IC::PERSIST::Kmtabelado');
